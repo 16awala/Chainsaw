@@ -17,7 +17,7 @@ namespace ChainsawEngine
                 string path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
             }
-        }//LEARN HOW THIS WORKS
+        }
         public static string arrayToString<type>(type[] set)
         {
             return arrayToString(set, " , ");
@@ -196,7 +196,7 @@ namespace ChainsawEngine
         }
     }
 
-    public class Expression//Set of rules for interpreting and evaluating basic y= functions
+    public class Expression
     {
         /*Instructions for custom operations
           Custom functions are processed at the same time as trigonometric functions (after parenthesis, before exponents)
