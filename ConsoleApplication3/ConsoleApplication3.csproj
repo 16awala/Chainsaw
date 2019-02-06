@@ -44,8 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetLib.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ChainsawEngine.cs" />
+    <Compile Include="Chainsaw.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
