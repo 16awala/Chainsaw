@@ -19,46 +19,6 @@ namespace ConsoleApplication3
             switch (args[0].ToLower())
             {
                 case "debug":
-                    //TEST CODE GOES HERE
-
-                    //Last debug: debug x^3-3x^2-x+1 -1 4 -5.5 1.5 200 200 1 1 1
-
-                    //debug <expression> <x Left> <x right> <y bottom> <y top> <x resolution> <y resolution> <graph resolution> <tickmark intervals> <brushSize>
-                    Expression e = new Expression(args[1]); //Expression from args
-                                                            //Random r = new Random();
-                                                            //Expression e;
-                                                            //string raw = stupidExpression(10000,r);
-                                                            //e = new Expression(raw);//expression from stupid
-                                                            //e = stupidExpressionRaw(10000, r);
-                                                            //Console.WriteLine("           Expression: {0}", e.toString(false));
-                                                            //e.analysis();
-                                                            //e.Benchmark();
-
-                    //Console.WriteLine("           Expression: {0}", e.toString(false));
-                    //Console.WriteLine("           Single OPS: {0}", e.opsSingle);
-                    //Console.WriteLine("         Threaded OPS: {0}", e.opsMutliTotal);
-                    //Console.WriteLine("       Steps to solve: {0}", e.steps);
-
-
-                    Console.WriteLine("Generating Graph from {0} samples...", Convert.ToInt32(args[6]) * Convert.ToInt32(args[8]));
-                    DataSet2D d = Utils.Data2DFromExpression(e, Convert.ToDouble(args[2]), Convert.ToDouble(args[3]), Convert.ToInt32(args[6]) * Convert.ToInt32(args[8]));
-                    Console.WriteLine("          Graph x Min: {0}", d.x.Min());
-                    Console.WriteLine("          Graph x Max: {0}", d.x.Max());
-                    Console.WriteLine("        Graph x Range: {0}", d.x.Max() - d.x.Min());
-                    Console.WriteLine("          Graph y Min: {0}", d.y.Min());
-                    Console.WriteLine("          Graph y Max: {0}", d.y.Max());
-                    Console.WriteLine("        Graph y Range: {0}", d.y.Max() - d.y.Min());
-                    Console.WriteLine("   Tick mark interval: {0}", Convert.ToDouble(args[9]));
-                    graphData gd = new graphData(d, Convert.ToInt32(args[6]), Convert.ToInt32(args[7]), Convert.ToDouble(args[4]), Convert.ToDouble(args[5]));
-                    Bitmap graph = DrawMeAGraph(gd, Color.Red, Convert.ToInt32(args[10]), Convert.ToDouble(args[9]), true);
-                    graph.Save("test.bmp");
-                    Process.Start(Parsers.AssemblyDirectory + "\\test.bmp");
-
-                    //Bitmap bitty = new Bitmap(50, 50);
-                    //bitty.Save("test.bmp");
-                    //Process.Start(Parsers.AssemblyDirectory + "\\test.bmp");
-                    Console.Read();
-                    //TEST CODE GOES HERE
                     break;
 
                 default:
