@@ -97,9 +97,6 @@ namespace PullStart
 
         public static void loopBody()
         {
-            Console.WriteLine("Dnet v0.3.0 r0 11/26/2017");
-            Console.WriteLine("Type \"Help\"");
-            Console.WriteLine("");
             while (!PullStart.input.Equals("quit") && !PullStart.input.Equals("exit"))
             {
                 PullStart.input = Console.ReadLine().ToLower();
