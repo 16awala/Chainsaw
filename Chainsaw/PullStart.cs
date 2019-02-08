@@ -12,6 +12,11 @@ namespace PullStart
 {
     public static class DualOut
     {
+        /* Note:
+         * All of this code was recovered from disaster by a decompiling of a build from the original code.
+         * For this reason, much of the code has been altered by compiler optimizations and is not very readable 
+         * Additionally, all original comments are lost.
+         */
         public static bool isOpen = false;
         private static TextWriter _current;
         private static StreamWriter dualS;
