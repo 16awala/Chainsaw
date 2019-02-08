@@ -222,6 +222,12 @@ namespace ChainsawEngine
 
     public class Expression
     {
+
+        /* Note: due to an unfortunate mishap, all of this code has been decompiled from an exe.
+         * Because of pre-compiler operations, much of the code is not very readable, and comments have been stripped.
+         * Some of the code has been reformatted and documented, but beware.
+         * /
+
         /*Instructions for custom operations
           Custom functions are processed at the same time as trigonometric functions (after parenthesis, before exponents)
           They are evaluated by being applied to the item to their immediate right, be that a constant, a variable, or a parenthesis group.
@@ -787,6 +793,24 @@ namespace ChainsawEngine
 
         private int[] analyse(double[] Dataset, int[] Typeset, int stacklevel, bool verbose = false)
         {
+            /*This algorithm performs several passes over the entirety of the function with the intent to determine
+             * an acceptable order for evaluating the expression.
+             * The order of operations used is as follows:
+             * 1. Parenthesis (when encountered, the group contained by the parenthesis is passed into this function to be evaluated separately
+             * 2. Custom functions (all built in functions, as they only take one value to operate on.
+             * 3. Exponents
+             * 4. Multiplication/Division. There is no prioritization here, first come first serve left to right.
+             * 5. Addition / subtraction. There is no prioritization here, first come first serve left to right.
+             * 
+             * This could all be done each time the expression is called, however we are not expecting the expression to change,
+             * meaning the order in which everything happens will be the same every time. Evaluating an expression once the order of evaluation
+             * is known for it can take around 1/10th of the time it takes to determine that order, so with a very small amount of up-front computation
+             * evaluating massive or numerous sets of data is drastically reduced in CPU cost.
+             * 
+             * Analysis is stored in a tape-like fashion with each necessary operation taking up 3 digits: lefthand index , operator , righthand index
+             * This means the evaluation function needs no understanding of the desired order of operations, it simply reads the tape
+             * from left to right (index 0 upwards). The tape serves as a step-by-step how-to guide on evaluating the function.
+            */
             double[] dataarray = new double[Dataset.Length];
             int[] numArray1 = new int[Typeset.Length];
             Dataset.CopyTo((Array)dataarray, 0);
