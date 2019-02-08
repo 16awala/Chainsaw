@@ -458,10 +458,10 @@ namespace ChainsawEngine
             {
                 if (i < 2)
                 {
-                    if (i == 1 && (((int)str[i] == 40 || (int)str[i] == 120) && ((IEnumerable<char>)chArray).Contains<char>(str[i - 1]) || ((IEnumerable<char>)chArray).Contains<char>(str[i]) && (int)str[i - 1] == 41))
+                    if (i == 1 && ((str[i] == '(' || str[i] == 'x') && (chArray.Contains(str[i - 1]) || chArray.Contains(str[i]) && str[i - 1] == ')')))
                         str = str.Substring(0, i) + "*" + str.Substring(i, str.Length - i);
                 }
-                else if (((int)str[i] == 40 || (int)str[i] == 120) && (((IEnumerable<char>)chArray).Contains<char>(str[i - 1]) && (int)str[i - 2] != 36) || ((IEnumerable<char>)chArray).Contains<char>(str[i]) && (int)str[i - 1] == 41)
+                else if ((str[i] == '(' || str[i] == 'x') && (chArray.Contains(str[i - 1]) && str[i - 2] != '$') || (chArray).Contains(str[i]) && str[i - 1] == ')')
                     str = str.Substring(0, i) + "*" + str.Substring(i, str.Length - i);
             }
             return str;
@@ -480,7 +480,7 @@ namespace ChainsawEngine
             int index = 0;
             while (index < this.opTape.Length)
             {
-                str = str + "( " + (object)this.opTape[index] + "," + (object)this.opTape[index + 1] + "," + (object)this.opTape[index + 2] + " )";
+                str = str + "( " + opTape[index] + "," + opTape[index + 1] + "," + opTape[index + 2] + " )";
                 index += 3;
             }
             return str + " }";
@@ -493,26 +493,26 @@ namespace ChainsawEngine
             {
                 if (padterms)
                     str += " ";
-                switch (this.type[index])
+                switch (type[index])
                 {
                     case 0:
-                        str += Convert.ToString(this.data[index]);
+                        str += Convert.ToString(data[index]);
                         break;
                     case 1:
-                        if (this.data[index] < 0.0 || this.data[index] > (double)(this.operatorLookup.Length - 1))
-                            throw new ArgumentOutOfRangeException("data[" + Convert.ToString(index) + "]", (object)this.data[index], "Unkown operator");
+                        if (data[index] < 0.0 || data[index] > operatorLookup.Length - 1)
+                            throw new ArgumentOutOfRangeException("data[" + Convert.ToString(index) + "]", data[index], "Unkown operator");
                         if (!compact)
                         {
-                            str += this.operatorLookup[Convert.ToInt32(this.data[index])];
+                            str += operatorLookup[Convert.ToInt32(data[index])];
                             break;
                         }
                         if (this.data[index] != 5.0)
-                            str += this.operatorLookup[Convert.ToInt32(this.data[index])];
-                        else if ((index != 1 || this.type[index + 1] == 0) && (this.type[index - 1] != 0 || this.type[index + 1] != 2))
-                            str += this.operatorLookup[Convert.ToInt32(this.data[index])];
+                            str += operatorLookup[Convert.ToInt32(data[index])];
+                        else if ((index != 1 || type[index + 1] == 0) && (type[index - 1] != 0 || type[index + 1] != 2))
+                            str += operatorLookup[Convert.ToInt32(data[index])];
                         break;
                     case 2:
-                        str = this.data[index] != 0.0 ? str + "x" + Convert.ToString(this.data[index]) : str + "x";
+                        str = data[index] != 0.0 ? str + "x" + Convert.ToString(data[index]) : str + "x";
                         break;
                     default:
                         str += "?";
@@ -524,18 +524,18 @@ namespace ChainsawEngine
 
         private void trimVariableSubs()
         {
-            bool[] flagArray = new bool[this.numVariables];
-            double[] numArray = new double[this.numVariables];
-            for (int index = 0; index < this.numVariables; ++index)
-                numArray[index] = (double)index;
-            for (int index = 0; index < this.type.Length; ++index)
+            bool[] flagArray = new bool[numVariables];
+            double[] numArray = new double[numVariables];
+            for (int index = 0; index < numVariables; ++index)
+                numArray[index] = index;
+            for (int index = 0; index < type.Length; ++index)
             {
-                if (this.type[index] == 2)
-                    flagArray[Convert.ToInt32(this.data[index])] = true;
+                if (type[index] == 2)
+                    flagArray[Convert.ToInt32(data[index])] = true;
             }
-            int num = this.numVariables + 1;
+            int num = numVariables + 1;
             bool flag = true;
-            for (int index = 0; index < this.numVariables; ++index)
+            for (int index = 0; index < numVariables; ++index)
             {
                 if (flag)
                 {
@@ -548,14 +548,14 @@ namespace ChainsawEngine
                 }
                 else if (flagArray[index])
                 {
-                    numArray[index] = (double)num;
+                    numArray[index] = num;
                     ++num;
                 }
             }
-            for (int index = 0; index < this.type.Length; ++index)
+            for (int index = 0; index < type.Length; ++index)
             {
-                if (this.type[index] == 2)
-                    this.data[index] = numArray[Convert.ToInt32(this.data[index])];
+                if (type[index] == 2)
+                    data[index] = numArray[Convert.ToInt32(data[index])];
             }
             this.updateVarCount();
         }
@@ -577,14 +577,14 @@ namespace ChainsawEngine
                     while (flag)
                     {
                         flag = false;
-                        for (int index = 0; index < this.type.Length; ++index)
+                        for (int index = 0; index < type.Length; ++index)
                         {
-                            if (this.type[index] == 1 && ((this.data[index] == 0.0 || this.data[index] == 2.0) && this.findClosing(index) == index + 2))
+                            if (type[index] == 1 && ((data[index] == 0.0 || data[index] == 2.0) && findClosing(index) == index + 2))
                             {
-                                this.type = Utils.removeArrayElement<int>(this.type, index + 2);
-                                this.type = Utils.removeArrayElement<int>(this.type, index);
-                                this.data = Utils.removeArrayElement<double>(this.data, index + 2);
-                                this.data = Utils.removeArrayElement<double>(this.data, index);
+                                type = Utils.removeArrayElement(type, index + 2);
+                                type = Utils.removeArrayElement(type, index);
+                                data = Utils.removeArrayElement(data, index + 2);
+                                data = Utils.removeArrayElement(data, index);
                                 flag = true;
                             }
                         }
