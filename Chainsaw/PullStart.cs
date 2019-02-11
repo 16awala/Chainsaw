@@ -16,6 +16,7 @@ namespace PullStart
          * All of this code was recovered from disaster by a decompiling of a build from the original code.
          * For this reason, much of the code has been altered by compiler optimizations and is not very readable 
          * Additionally, all original comments are lost.
+         * 
          */
         public static bool isOpen = false;
         private static TextWriter _current;
@@ -208,25 +209,8 @@ namespace PullStart
             int num1 = 0;
             int num2 = 0;
             string str1 = "x";
-            string[] s1 = new string[6]
-            {
-        "^",
-        "*",
-        "+",
-        "-",
-        "*",
-        "/"
-            };
-            string[] s2 = new string[7]
-            {
-        "sin",
-        "cos",
-        "tan",
-        "sec",
-        "csc",
-        "cot",
-        "abs"
-            };
+            string[] s1 = new string[6] {"^","*","+","-","*","/"};
+            string[] s2 = new string[7] { "sin", "cos","tan","sec","csc","cot","abs"};
             for (int index1 = 0; index1 < n; ++index1)
             {
                 string str2 = str1 + PullStart.randstr<string>(s1, gen);
@@ -281,15 +265,7 @@ namespace PullStart
             double[] numArray2 = new double[n * 2];
             double[] s1 = new double[5] { 4.0, 5.0, 6.0, 7.0, 8.0 };
             double[] s2 = new double[7]
-            {
-        9.0,
-        10.0,
-        11.0,
-        12.0,
-        13.0,
-        14.0,
-        15.0
-            };
+            { 9.0, 10.0,11.0,12.0,13.0,14.0,15.0 };
             numArray1[0] = 2;
             numArray2[0] = 0.0;
             int index1 = 1;
